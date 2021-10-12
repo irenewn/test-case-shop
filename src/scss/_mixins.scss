@@ -1,0 +1,21 @@
+@mixin padding($value) {
+  padding: $value;
+}
+
+@mixin box-sizing() {
+  box-sizing: border-box;
+}
+
+@mixin border-radius() {
+
+  border-radius: $base-space;
+}
+
+@mixin animated() {
+  transition: 0.5s ease-in-out;
+}
+
+@mixin background-cover() {
+  background-position: center;
+  background-size: cover;
+}
