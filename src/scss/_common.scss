@@ -1,0 +1,33 @@
+.full-size {
+  height: 100%;
+  width: 100%;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box-shadow {
+  box-shadow: 2px 2px 4px #444;
+}
+
+.animated {
+  transition: 0.5s;
+  transition-timing-function: ease-in;
+}
+
+.animated-fast{
+  transition: 0.3s;
+  transition-timing-function: ease-in;
+}
+
+.vertical-center {
+  display: flex;
+  align-items: center;
+}
+
+.box-sizing {
+  box-sizing: border-box;
+}

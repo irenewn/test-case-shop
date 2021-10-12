@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import "./App.scss";
+import {Catalogue} from "./layouts";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+
+  isReady() {
+    return true;
+  }
+
+  getExtendedProps(props) {
+    return {
+      ...props,
+      navigate: (target, state) => props.history.push(target, state),
+    };
+  }
+
+  render() {
+    const isReady = this.isReady();
+    if (!isReady) {
+      return null;
+    }
+    return <BrowserRouter>{this.renderLayoutRoutes()}</BrowserRouter>;
+  }
+
+  renderLayoutRoutes() {
+    return (
+      <Switch>
+        <Route
+          path="/"
+          component={(props) => <Catalogue {...this.getExtendedProps(props)} />}
+        />
+      </Switch>
+    );
+  }
 }
-
-export default App;
