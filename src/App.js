@@ -17,10 +17,6 @@ export default class App extends Component {
   }
 
   render() {
-    const isReady = this.isReady();
-    if (!isReady) {
-      return null;
-    }
     return <BrowserRouter>{this.renderLayoutRoutes()}</BrowserRouter>;
   }
 

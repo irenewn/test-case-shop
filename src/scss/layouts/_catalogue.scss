@@ -1,34 +1,4 @@
 section {
-  .contact-us-content {
-    background: #fff;
-    color: #1c4d86;
-    width: 550px;
-    // height: 300px;
-    padding: 25px;
-    padding-bottom: 50px;
-    border-radius: 50px;
-    .title {
-      font-weight: 800;
-      text-transform: uppercase;
-      font-size: 2rem;
-      text-align: center;
-      // margin-top: 25px;
-    }
-    .content {
-      margin-top: 25px;
-      text-align: center;
-      div {
-        display: flex;
-        font-size: 1.2rem;
-        align-items: center;
-      }
-      i.fa {
-        font-size: 3rem;
-        margin-left: 60px;
-        margin-right: 20px;
-      }
-    }
-  }
 
   &.center-content {
     display: flex;
@@ -38,11 +8,6 @@ section {
 
   &.none {
     display: none;
-  }
-
-  &.contact-us {
-    background: rgba(52, 52, 52, 0.8);
-    z-index: 4;
   }
 
   &.sticky {

@@ -112,21 +112,19 @@ export default class Catalogue extends Component {
       onCancel={this.handleCancelCart}
       >
       {(this.state.cart.length == 0)?
-        <div>Your cart is Empty</div>:
+        <p>Your cart is Empty</p>:
         <div>
           {this.state.cart.map((product,index)=>{
             return(
               <div style={{ display: "flex", flexDirection: "row", margin: "30px" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
                   <img src={product.image}
-                      style={{ height: "150px" }}></img>
+                      style={{ height: "150px" }}/>
                   <div style={{ margin: "20px", padding: "10px" }}>
-                    <div><b>{product.title}</b></div>
-                    <div style={{ fontSize: "12px" }}>
-                      <b>{product.qty} x ${product.price}</b><br/>
-                    </div>
+                    <h2>{product.title}</h2>
+                    {/* <div style={{ fontSize: "12px" }}> */}
+                      <strong>{product.qty} x ${product.price}</strong><br/>
+                    {/* </div> */}
                   </div>
-                </div>
                 <div
                   style={{ display:"flex", alignItems:"center", justifyContent:"flex-end"}}
                 >
@@ -185,16 +183,14 @@ export default class Catalogue extends Component {
         ]}>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <img src={this.state.selectedProduct.image}
-              style={{ height: "250px" }}></img>
+              style={{ height: "250px" }}/>
           <div style={{ margin: "20px", padding: "10px" }}>
-            <div><b>{this.state.selectedProduct.title}</b></div>
+            <h2>{this.state.selectedProduct.title}</h2>
             <div style={{ fontSize: "12px" }}>
               {this.state.selectedProduct.description}<br/>
-              <b>${this.state.selectedProduct.price}</b><br/>
+              <p><strong>${this.state.selectedProduct.price}</strong></p>
             </div>
-            <div>
-              <InputNumber min={1} defaultValue={1} onChange={(value) => {console.log("Number Value :",value); this.onChangeQty(value)}}/>
-            </div>
+            <InputNumber min={1} defaultValue={1} onChange={(value) => {console.log("Number Value :",value); this.onChangeQty(value)}}/>
           </div>
         </div>
         
@@ -205,7 +201,7 @@ export default class Catalogue extends Component {
   renderNavBar() {
     const { navigate } = this.props;
     return (
-      <section className="navbar">
+      <navbar className="navbar">
         <div className="navbar-container">
           <div className="navbar-left">
             <ul className={this.state.menuOpened ? "active" : "none"}>
@@ -223,7 +219,7 @@ export default class Catalogue extends Component {
             Carts - {this.state.cart.length == 0 ? `0 items` : `${this.state.itemTotal} items`} ($ {this.state.cart.length==0 ? '0' : this.state.grandTotal})
           </div>
         </div>
-      </section>
+      </navbar>
     );
   }
 
@@ -231,11 +227,11 @@ export default class Catalogue extends Component {
     return (
       <main className="main-layout full-size">
         {this.renderNavBar()}
-        <section className="section-katalog">
-        <div className="section-title">Katalog Produk</div>
-        <div className="section-content">
         {this.renderModalProduct()}
         {this.renderModalCart()}
+        <section className="section-katalog">
+        <h1 className="section-title">Katalog Produk</h1>
+        <div className="section-content">
           <div className="products">
             {this.state.products.map((product, index) => {
                   return (
