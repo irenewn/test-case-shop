@@ -188,7 +188,7 @@ export default class Catalogue extends Component {
             <h2>{this.state.selectedProduct.title}</h2>
             <div style={{ fontSize: "12px" }}>
               {this.state.selectedProduct.description}<br/>
-              <p><strong>${this.state.selectedProduct.price}</strong></p>
+              <strong>${this.state.selectedProduct.price}</strong>
             </div>
             <InputNumber min={1} defaultValue={1} onChange={(value) => {console.log("Number Value :",value); this.onChangeQty(value)}}/>
           </div>
@@ -225,14 +225,16 @@ export default class Catalogue extends Component {
 
   render() {
     return (
-      <main className="main-layout full-size">
+      <section className="main-layout full-size">
         {this.renderNavBar()}
-        {this.renderModalProduct()}
-        {this.renderModalCart()}
-        <section className="section-katalog">
-        <h1 className="section-title">Katalog Produk</h1>
-        <div className="section-content">
-          <div className="products">
+        <aside>
+          {this.renderModalProduct()}
+          {this.renderModalCart()}
+        </aside>
+        <main className="section-katalog">
+        <h1 className="section-title">Product Catalogue</h1>
+        <ul className="section-content">
+          <li className="products">
             {this.state.products.map((product, index) => {
                   return (
                     <Product
@@ -249,10 +251,10 @@ export default class Catalogue extends Component {
                   );
                 })
               }
-          </div>
-        </div>
-      </section>
+          </li>
+        </ul>
       </main>
+      </section>
     );
   }
 

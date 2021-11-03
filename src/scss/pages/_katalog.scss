@@ -19,6 +19,7 @@
   .section-content {
     justify-content: center;
     width: 75%;
+    list-style-type:none;
 
     .product-overlay {
       position: fixed; /* Sit on top of the page content */
@@ -45,9 +46,6 @@
       align-self: center;
       display: flex;
       flex-wrap: wrap;
-      // display: grid;
-      // grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      // grid-gap: 30px;
       justify-content: center;
       margin-bottom: 20px;
     }
