@@ -1,3 +1,9 @@
+.section-title {
+  text-transform: uppercase;
+  font-size: 50pt;
+  font-weight: 700;
+  text-align: center;
+}
 .section-katalog {
   display: flex;
   // justify-content: center;
@@ -9,12 +15,6 @@
   width: 100%;
   background: white;
 
-  .section-title {
-    text-transform: uppercase;
-    font-size: 50pt;
-    font-weight: 700;
-    text-align: center;
-  }
 
   .section-content {
     // align-self: center;
@@ -57,19 +57,17 @@
       margin-bottom: 35px;
     }
 
-    .products {
-      width: 100%;
-      align-self: center;
-      display: flex;
-      flex-wrap: wrap;
-      // display: grid;
-      // grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      // grid-gap: 30px;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
   }
 }
+.products {
+  align-self: center;
+  margin: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 @media screen and (max-width: 950px) {
   .section-katalog {
     .section-title {
