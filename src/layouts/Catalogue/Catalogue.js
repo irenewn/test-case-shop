@@ -3,6 +3,7 @@ import Product from "../../components/Product";
 import { ProductApi } from "../../api";
 import { Modal, Button, InputNumber, } from "antd";
 import 'antd/dist/antd.css';
+import styled from "styled-components";
 
 const loading = (
   <div className="suspense-page">
@@ -103,6 +104,32 @@ export default class Catalogue extends Component {
   }
 
   renderModalCart(){
+    const Context = styled.div`
+       display: flex;
+       flex-direction: row;
+       margin: 30px;
+    `;
+
+    const ItemInfo = styled.div`
+      display: flex;
+      flex-direction: row;
+    `;
+
+    const Image = styled.img`
+      height: 150px;    
+    `;
+
+    const ItemDetail = styled.div`
+      margin: 20px;
+      padding: 10px;
+    `;
+
+    const GrandTotal = styled.div`
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end; 
+    `;
+
     return(
       <Modal
       centered
@@ -112,27 +139,22 @@ export default class Catalogue extends Component {
       onCancel={this.handleCancelCart}
       >
       {(this.state.cart.length == 0)?
-        <div>Your cart is Empty</div>:
+        <p>Your cart is Empty</p>:
         <div>
-          {this.state.cart.map((product,index)=>{
+          {this.state.cart.map((product)=>{
             return(
-              <div style={{ display: "flex", flexDirection: "row", margin: "30px" }}>
-                <div style={{ display: "flex", flexDirection: "row" }}>
-                  <img src={product.image}
-                      style={{ height: "150px" }}></img>
-                  <div style={{ margin: "20px", padding: "10px" }}>
-                    <div><b>{product.title}</b></div>
-                    <div style={{ fontSize: "12px" }}>
-                      <b>{product.qty} x ${product.price}</b><br/>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  style={{ display:"flex", alignItems:"center", justifyContent:"flex-end"}}
-                >
+              <Context>
+                <ItemInfo>
+                  <Image src={product.image}/>
+                  <ItemDetail>
+                    <h2>{product.title}</h2>
+                    <strong>{product.qty} x ${product.price}</strong><br/>
+                  </ItemDetail>
+                </ItemInfo>
+                <GrandTotal>
                   ${product.qty*product.price}
-                </div>
-              </div>
+                </GrandTotal>
+              </Context>
             )
           })
         }
@@ -164,6 +186,25 @@ export default class Catalogue extends Component {
   }
 
   renderModalProduct(){
+    const Context = styled.div`
+      display: flex;
+      flex-direction: row;
+    `;
+
+    const Image = styled.img`
+      height: 250px;
+    `;
+
+    const ProductInfo = styled.div`
+      margin: 20px;
+      padding: 10px;
+    `;
+
+    const Description = styled.p`
+      font-size: 12px;
+      display: block;
+    `;
+
     return(
       <Modal
         centered
@@ -183,62 +224,117 @@ export default class Catalogue extends Component {
             Cancel
           </Button>,
         ]}>
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <img src={this.state.selectedProduct.image}
-              style={{ height: "250px" }}></img>
-          <div style={{ margin: "20px", padding: "10px" }}>
-            <div><b>{this.state.selectedProduct.title}</b></div>
-            <div style={{ fontSize: "12px" }}>
+        <Context>
+          <Image src={this.state.selectedProduct.image}
+              style={{ height: "250px" }}/>
+          <ProductInfo>
+            <h2><strong>{this.state.selectedProduct.title}</strong></h2>
+            <Description>
               {this.state.selectedProduct.description}<br/>
-              <b>${this.state.selectedProduct.price}</b><br/>
-            </div>
-            <div>
-              <InputNumber min={1} defaultValue={1} onChange={(value) => {console.log("Number Value :",value); this.onChangeQty(value)}}/>
-            </div>
-          </div>
-        </div>
+              <strong>${this.state.selectedProduct.price}</strong>
+            </Description>
+            <InputNumber min={1} defaultValue={1} onChange={(value) => {console.log("Number Value :",value); this.onChangeQty(value)}}/>
+          </ProductInfo>
+        </Context>
         
       </Modal>
     )
   }
 
-  renderNavBar() {
-    const { navigate } = this.props;
+  renderNavBar() {    
+    const NavBar = styled.nav`
+      width: 100vw;
+      height: 70px;
+      display: flex;
+      position: fixed;
+      top: 0;
+      padding: 0;
+      z-index: 3;
+      justify-content: center;
+      background: #1c4d86;
+      align-items: center;
+    `; 
+
+    const Container = styled.div`
+      color: white;
+      width: 85%;
+      margin-left: 0;
+      display: flex;
+      justify-content: space-between;
+    `;
+
+    const LeftColumn = styled.div`
+      display: flex;
+      margin: 0;
+      flex: 2;
+      justify-content: flex-start;
+    `;
+
+    const RightColumn = styled.div`
+      display: flex;
+      flex: 2;
+      justify-content: flex-end;
+    `;
+
     return (
-      <section className="navbar">
-        <div className="navbar-container">
-          <div className="navbar-left">
-            <ul className={this.state.menuOpened ? "active" : "none"}>
-              <li
-                onClick={() => {
-                  navigate("/");
-                  this.handleMenuOpen();
-                }}
-              >
+      <NavBar>
+        <Container>
+          <LeftColumn>
                 Home
-              </li>
-            </ul>
-          </div>
-          <div className="navbar-right" onClick={()=>this.setState({showModalCart: true})}>
+          </LeftColumn>
+          <RightColumn onClick={()=>this.setState({showModalCart: true})}>
             Carts - {this.state.cart.length == 0 ? `0 items` : `${this.state.itemTotal} items`} ($ {this.state.cart.length==0 ? '0' : this.state.grandTotal})
-          </div>
-        </div>
-      </section>
+          </RightColumn>
+        </Container>
+      </NavBar>
     );
   }
 
   render() {
+    const Wrapper = styled.div`
+      height: 100%;
+      width: 100%;
+    `;
+
+    const Main = styled.main`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: calc(100vh - 70px);
+    margin-top: 70px;
+    padding-top: 20px;
+    width: 100%;
+    background: white;
+    `;
+
+    const Title = styled.h1`
+      text-transform: uppercase;
+      font-size: 50pt;
+      font-weight: 700;
+      text-align: center;
+    `;
+
+    const Products = styled.ul`
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 75%;
+    `
+
     return (
-      <main className="main-layout full-size">
+      <Wrapper>
         {this.renderNavBar()}
-        <section className="section-katalog">
-        <div className="section-title">Katalog Produk</div>
-        <div className="section-content">
-        {this.renderModalProduct()}
-        {this.renderModalCart()}
-          <div className="products">
+        <aside>
+          {this.renderModalProduct()}
+          {this.renderModalCart()}
+        </aside>
+        <Main>
+        <Title>Product Catalogue</Title>
+        <Products>
             {this.state.products.map((product, index) => {
-                  return (
+              return (
                     <Product
                     key={product.id}
                     navigate={this.props.navigate}
@@ -250,13 +346,12 @@ export default class Catalogue extends Component {
                     show={true}
                     onClick={()=>{this.showModal(product)}}
                     ></Product>
-                  );
-                })
-              }
-          </div>
-        </div>
-      </section>
-      </main>
+                    );
+                  })
+                }
+        </Products>
+      </Main>
+      </Wrapper>
     );
   }
 
