@@ -16,9 +16,7 @@ export default class Product extends Component {
       margin: 30px;
       display: flex;
       flex-direction: column-reverse;
-      /* align-items: flex-end; */
-
-      /* align-self: center; */
+     
       margin: 30px;
       justify-content: center;
       margin-bottom: 20px;
@@ -26,9 +24,10 @@ export default class Product extends Component {
 
     const Title = styled.h1`
       text-align: center;
-      min-height: 120px;
+      min-height: 150px;
       padding-top: 20px;
       padding-bottom: 20px;
+      font-size: large;
     `;
 
     return (
