@@ -1,5 +1,5 @@
 import React, {Component } from "react";
-import Product from "../../components/Product";
+import {Product, NavigationBar, Cart} from "../../components";
 import { ProductApi } from "../../api";
 import { Modal, Button, InputNumber, } from "antd";
 import 'antd/dist/antd.css';
@@ -23,12 +23,6 @@ export default class Catalogue extends Component {
     cart: [],
     qty: 1,
   };
-
-  handleMenuOpen(e) {
-    this.setState({
-      menuOpened: !this.state.menuOpened,
-    });
-  }
 
   getDataProducts() {
     return ProductApi.get().then(res => res.json())
@@ -59,12 +53,10 @@ export default class Catalogue extends Component {
     this.setState({ showModal: false, selectedProduct: {}, qty: 1 });
   };
 
-  handleOkCart = () => {
-    this.setState({ showModalCart: false });
-  };
-
-  handleCancelCart = () => {
-    this.setState({ showModalCart: false });
+  handlerEmptyCart = () => {
+    this.setState({
+      cart: [],
+    })
   };
 
   addtoCartHandler = () => {
@@ -96,74 +88,6 @@ export default class Catalogue extends Component {
       console.log(`cart`, this.state.cart)
     })
   }
-
-  handlerEmptyCart(){
-    this.setState({
-      cart: [],
-    })
-  }
-
-  renderModalCart(){
-    const Context = styled.div`
-       display: flex;
-       flex-direction: row;
-       margin: 30px;
-    `;
-
-    const ItemInfo = styled.div`
-      display: flex;
-      flex-direction: row;
-    `;
-
-    const Image = styled.img`
-      height: 150px;    
-    `;
-
-    const ItemDetail = styled.div`
-      margin: 20px;
-      padding: 10px;
-    `;
-
-    const GrandTotal = styled.div`
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end; 
-    `;
-
-    return(
-      <Modal
-      centered
-      title="Cart"
-      visible={this.state.showModalCart}
-      onOk={this.handleOkCart}
-      onCancel={this.handleCancelCart}
-      >
-      {(this.state.cart.length == 0)?
-        <p>Your cart is Empty</p>:
-        <div>
-          {this.state.cart.map((product)=>{
-            return(
-              <Context>
-                <ItemInfo>
-                  <Image src={product.image}/>
-                  <ItemDetail>
-                    <h2>{product.title}</h2>
-                    <strong>{product.qty} x ${product.price}</strong><br/>
-                  </ItemDetail>
-                </ItemInfo>
-                <GrandTotal>
-                  ${product.qty*product.price}
-                </GrandTotal>
-              </Context>
-            )
-          })
-        }
-        <Button onClick={()=>{this.handlerEmptyCart()}}>EmptyCart</Button>
-        </div>
-        }
-    </Modal>
-    )
-  } 
 
   recalculateGrandTotal = () => {
     var grandTotal = 0.0, itemTotal = 0;
@@ -241,54 +165,13 @@ export default class Catalogue extends Component {
     )
   }
 
-  renderNavBar() {    
-    const NavBar = styled.nav`
-      width: 100vw;
-      height: 70px;
-      display: flex;
-      position: fixed;
-      top: 0;
-      padding: 0;
-      z-index: 3;
-      justify-content: center;
-      background: #1c4d86;
-      align-items: center;
-    `; 
+  handleOkCart = () => {
+    this.setState({ showModalCart: false });
+  };
 
-    const Container = styled.div`
-      color: white;
-      width: 85%;
-      margin-left: 0;
-      display: flex;
-      justify-content: space-between;
-    `;
-
-    const LeftColumn = styled.div`
-      display: flex;
-      margin: 0;
-      flex: 2;
-      justify-content: flex-start;
-    `;
-
-    const RightColumn = styled.div`
-      display: flex;
-      flex: 2;
-      justify-content: flex-end;
-    `;
-
-    return (
-      <NavBar>
-        <Container>
-          <LeftColumn>
-                Home
-          </LeftColumn>
-          <RightColumn onClick={()=>this.setState({showModalCart: true})}>
-            Carts - {this.state.cart.length == 0 ? `0 items` : `${this.state.itemTotal} items`} ($ {this.state.cart.length==0 ? '0' : this.state.grandTotal})
-          </RightColumn>
-        </Container>
-      </NavBar>
-    );
-  }
+  handleCancelCart = () => {
+    this.setState({ showModalCart: false });
+  };
 
   render() {
     const Wrapper = styled.div`
@@ -325,10 +208,10 @@ export default class Catalogue extends Component {
 
     return (
       <Wrapper>
-        {this.renderNavBar()}
+        <NavigationBar onClick={()=>{this.setState({showModalCart: true})}} />
         <aside>
           {this.renderModalProduct()}
-          {this.renderModalCart()}
+          <Cart visible={this.state.showModalCart} productList={this.state.cart} emptyCart={this.handlerEmptyCart} closeCart={this.handleCancelCart}/>
         </aside>
         <Main>
         <Title>Product Catalogue</Title>
