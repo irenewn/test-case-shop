@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {Modal, Button} from "antd";
 
-const Context = styled.div`
+const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
     margin: 30px;
@@ -30,19 +30,19 @@ const GrandTotal = styled.div`
 
 export default function Cart({visible, productList, emptyCart, closeCart}){    
     return(
-        <Modal
+      <Modal
         centered
         title="Cart"
         visible={visible}
         onOk={closeCart}
         onCancel={closeCart}
-        >
+      >
       {(productList.length == 0)?
         <p>Your cart is Empty</p>:
         <div>
           {productList.map((product)=>{
-              return(
-                  <Context>
+            return(
+              <Wrapper>
                 <ItemInfo>
                   <Image src={product.image}/>
                   <ItemDetail>
@@ -51,11 +51,11 @@ export default function Cart({visible, productList, emptyCart, closeCart}){
                   </ItemDetail>
                 </ItemInfo>
                 <GrandTotal>
-                  ${product.qty*product.price}
+                ${product.qty*product.price}
                 </GrandTotal>
-              </Context>
+              </Wrapper>
             )
-        })
+          })
         }
         <Button onClick={emptyCart}>EmptyCart</Button>
         </div>
