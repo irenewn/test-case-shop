@@ -26,6 +26,7 @@ export default function AddProduct({
   product,
   closeProduct,
   addToCart,
+  setQuantity,
 }) {
   return (
     <Modal
@@ -54,14 +55,7 @@ export default function AddProduct({
             <br />
             <strong>${product.price}</strong>
           </Description>
-          <InputNumber
-            min={1}
-            defaultValue={1}
-            onChange={(value) => {
-              console.log("Number Value :", value);
-              this.onChangeQty(value);
-            }}
-          />
+          <InputNumber min={1} defaultValue={1} onChange={setQuantity} />
         </ProductInfo>
       </Wrapper>
     </Modal>
