@@ -28,15 +28,15 @@ const Title = styled.h1`
   font-size: large;
 `;
 
-export default function Product() {
+export default function Product({ name, image, onClick }) {
   return (
     <Wrapper>
       <Title>
-        <b>{this.props.name}</b>
+        <b>{name}</b>
       </Title>
       <Image
-        src={this.props.image == null ? rokok : this.props.image}
-        onClick={this.props.onClick}
+        src={image == null ? rokok : image}
+        onClick={onClick}
         alt="product"
       />
     </Wrapper>

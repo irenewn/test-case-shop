@@ -3,6 +3,8 @@ import { Product, NavigationBar, Cart, AddProduct } from "../../components";
 import { ProductApi } from "../../api";
 import "antd/dist/antd.css";
 import styled from "styled-components";
+import useProductReducer from "../../components/CatalogueReducer";
+import useCartReducer from "../../components/CartReducer";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -40,76 +42,28 @@ export default function Catalogue() {
   const [products, setProducts] = useState([]);
   const [showModalCart, setShowModalCart] = useState(false);
 
-  const initialStateProduct = {
-    selectedProduct: {},
-    showModalProduct: false,
-    quantity: 1,
-  };
-  const [state, dispatch] = useReducer(reducer, initialStateProduct);
-
-  function reducer(state, action) {
-    switch (action.type) {
-      case "changeValue":
-        return {
-          ...state,
-          showModalProduct: true,
-          selectedProduct: action.value,
-        };
-      case "changeQuantity":
-        return { ...state, quantity: action.quantity };
-      case "reset":
-        return initialStateProduct;
-      default:
-        throw new Error();
-    }
-  }
-
-  const initialStateCart = {
-    cart: [],
-    itemTotal: 0,
-    grandTotal: 0,
-  };
-
-  const [stateCart, dispatchCart] = useReducer(reducerCart, initialStateCart);
-
-  function reducerCart(stateCart, action) {
-    switch (action.type) {
-      case "changeTotal":
-        return {
-          ...stateCart,
-          itemTotal: action.itemTotal,
-          grandTotal: action.grandTotal,
-        };
-      case "reset":
-        return initialStateCart;
-    }
-  }
+  const { state, actions } = useProductReducer();
+  const { stateCart, actionCarts } = useCartReducer();
 
   useEffect(() => {
     ProductApi.get()
       .then((res) => res.json())
       .then((res) => {
+        console.log(`res`, res);
         setProducts(res);
       });
   }, []);
 
   function showModal(product) {
-    dispatch({
-      type: "changeValue",
-      value: product,
-    });
+    actions.changeValue(product);
   }
 
   function handlerEmptyCart() {
-    dispatchCart({
-      type: "reset",
-    });
+    actionCarts.reset();
   }
 
   function handleCancel() {
-    dispatch({
-      type: "reset",
-    });
+    actions.reset();
   }
 
   function handleCancelCart() {
@@ -133,12 +87,10 @@ export default function Catalogue() {
       carts.push(objInserted);
     } else {
       var obj = carts[position];
-      var objInserted = { ...obj, qty: obj.qty + this.state.qty };
+      var objInserted = { ...obj, qty: obj.qty + state.quantity };
       carts[position] = objInserted;
     }
-    dispatch({
-      type: "reset",
-    });
+    actions.reset();
     recalculateGrandTotal();
   }
 
@@ -151,11 +103,7 @@ export default function Catalogue() {
       itemTotal += v.qty;
     });
 
-    dispatchCart({
-      type: "changeTotal",
-      itemTotal: itemTotal,
-      grandTotal: grandTotal,
-    });
+    actionCarts.changeTotal(itemTotal, grandTotal);
   }
 
   return (
@@ -171,12 +119,7 @@ export default function Catalogue() {
           product={state.selectedProduct}
           closeProduct={handleCancel}
           addToCart={addtoCartHandler}
-          setQuantity={(quantity) =>
-            dispatch({
-              type: "changeQuantity",
-              quantity: quantity,
-            })
-          }
+          setQuantity={(quantity) => actions.changeQuantity(quantity)}
         />
         <Cart
           visible={showModalCart}
@@ -191,8 +134,6 @@ export default function Catalogue() {
           {products.map((product) => {
             return (
               <Product
-                key={product.id}
-                id={product.id}
                 name={product.title}
                 image={product.image}
                 onClick={() => {
