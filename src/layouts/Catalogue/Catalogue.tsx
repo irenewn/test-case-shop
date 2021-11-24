@@ -3,7 +3,7 @@ import { Product, NavigationBar, Cart, AddProduct } from "../../components";
 import { ProductApi } from "../../api";
 import "antd/dist/antd.css";
 import styled from "styled-components";
-import useProductReducer from "../../components/CatalogueReducer";
+import useProductReducer from "../../components/ProductReducer";
 import useCartReducer from "../../components/CartReducer";
 
 const Wrapper = styled.div`
