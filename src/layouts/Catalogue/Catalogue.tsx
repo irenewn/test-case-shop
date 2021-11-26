@@ -40,9 +40,9 @@ const Products = styled.ul`
 `;
 
 export default function Catalogue() {
-  let listProduct: Product[];
-  listProduct = [];
-
+  // let listProduct: Product[];
+  
+  const [listProduct, setListProduct] = useState<Product[]>([]) 
   const [showModalCart, setShowModalCart] = useState(false);
 
   const { state, actions } = useProductReducer();
@@ -52,7 +52,7 @@ export default function Catalogue() {
     ProductApi.get()
       .then((res) => res.json())
       .then((res) => {
-        listProduct = res;
+        setListProduct(res);
         console.log(`listProd: `, listProduct);
       });
   }, []);
