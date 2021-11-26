@@ -52,8 +52,8 @@ export default function Catalogue() {
     ProductApi.get()
       .then((res) => res.json())
       .then((res) => {
-        console.log(`res`, res);
         listProduct = res;
+        console.log(`listProd: `, listProduct);
       });
   }, []);
 
@@ -74,8 +74,10 @@ export default function Catalogue() {
   }
 
   function addtoCartHandler() {
-    actionsOnCart.add(state.selectedProduct, state.quantity);
-    actions.reset();
+    if(state.selectedProduct !== undefined){
+      actionsOnCart.add(state.selectedProduct, state.quantity);
+      actions.reset();
+    }
     recalculateGrandTotal();
   }
 
@@ -83,9 +85,10 @@ export default function Catalogue() {
     var grandTotal = 0.0,
       itemTotal = 0;
 
-    stateCart.cart.map((v) => {
-      grandTotal += v.qty * v.price;
-      itemTotal += v.qty;
+    stateCart.cart.map((v: Product) => {
+      const qty = v?.qty ?? 0
+        grandTotal += qty * v.price;
+        itemTotal += qty;
     });
 
     actionsOnCart.changeTotal(itemTotal, grandTotal);
@@ -99,6 +102,7 @@ export default function Catalogue() {
         }}
       />
       <aside>
+        {state.selectedProduct && 
         <AddProduct
           visible={state.showModalProduct}
           product={state.selectedProduct}
@@ -106,6 +110,7 @@ export default function Catalogue() {
           addToCart={addtoCartHandler}
           setQuantity={(quantity: number) => actions.changeQuantity(quantity)}
         />
+        }
         <Cart
           visible={showModalCart}
           productList={stateCart.cart}
@@ -115,6 +120,7 @@ export default function Catalogue() {
       </aside>
       <Main>
         <Title>Product Catalogue</Title>
+        {console.log(listProduct)}
         <Products>
           {listProduct.map((product) => {
             return (

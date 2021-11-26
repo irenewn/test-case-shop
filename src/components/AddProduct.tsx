@@ -26,7 +26,7 @@ interface AddProductProps {
   product: Product,
   closeProduct: () => void,
   addToCart: () => void,
-  setQuantity: () => void,
+  setQuantity: (qty: number) => void,
 }
 
 export default function AddProduct({

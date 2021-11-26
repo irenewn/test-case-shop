@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import { Product } from "./types";
 
 interface ProductReducerState {
-  selectedProduct: Product | {};
+  selectedProduct: Product | undefined;
   showModalProduct: boolean;
   quantity: number;
 }
@@ -24,7 +24,7 @@ interface ResetAction {
 type ProductAction = ResetAction | ChangeValueAction | ChangeQuantityAction;
 
 const initialProductState = {
-  selectedProduct: {},
+  selectedProduct: undefined,
   showModalProduct: false,
   quantity: 1,
 };
