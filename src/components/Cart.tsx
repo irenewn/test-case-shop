@@ -1,6 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 import { Modal, Button } from "antd";
+import { Product } from "./types";
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,7 +28,14 @@ const GrandTotal = styled.div`
   justify-content: flex-end;
 `;
 
-export default function Cart({ visible, productList, emptyCart, closeCart }) {
+interface CartState {
+  visible: boolean,
+  productList: Product[],
+  emptyCart: () => void,
+  closeCart: () => void,
+}
+
+export default function Cart({ visible, productList, emptyCart, closeCart }: CartState) {
   return (
     <Modal
       centered

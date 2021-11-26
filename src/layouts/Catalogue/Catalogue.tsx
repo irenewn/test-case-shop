@@ -1,10 +1,11 @@
-import React, { useEffect, useReducer, useState } from "react";
-import { Product, NavigationBar, Cart, AddProduct } from "../../components";
+import { useEffect, useState } from "react";
+import { ContentProduct, NavigationBar, Cart, AddProduct } from "../../components";
 import { ProductApi } from "../../api";
 import "antd/dist/antd.css";
 import styled from "styled-components";
 import useProductReducer from "../../components/ProductReducer";
 import useCartReducer from "../../components/CartReducer";
+import { Product } from "../../components/types";
 
 const Wrapper = styled.div`
   height: 100%;
@@ -39,27 +40,29 @@ const Products = styled.ul`
 `;
 
 export default function Catalogue() {
-  const [products, setProducts] = useState([]);
+  let listProduct: Product[];
+  listProduct = [];
+
   const [showModalCart, setShowModalCart] = useState(false);
 
   const { state, actions } = useProductReducer();
-  const { stateCart, actionCarts } = useCartReducer();
+  const { stateCart, actionsOnCart } = useCartReducer();
 
   useEffect(() => {
     ProductApi.get()
       .then((res) => res.json())
       .then((res) => {
         console.log(`res`, res);
-        setProducts(res);
+        listProduct = res;
       });
   }, []);
 
-  function showModal(product) {
+  function showModal(product: Product) {
     actions.changeValue(product);
   }
 
   function handlerEmptyCart() {
-    actionCarts.reset();
+    actionsOnCart.reset();
   }
 
   function handleCancel() {
@@ -71,25 +74,7 @@ export default function Catalogue() {
   }
 
   function addtoCartHandler() {
-    var carts = stateCart.cart;
-    var qty = state.quantity;
-    var position = carts
-      .map(function (e) {
-        return e.id;
-      })
-      .indexOf(state.selectedProduct.id);
-    if (position < 0) {
-      //new insert
-      var objInserted = {
-        ...state.selectedProduct,
-        qty,
-      };
-      carts.push(objInserted);
-    } else {
-      var obj = carts[position];
-      var objInserted = { ...obj, qty: obj.qty + state.quantity };
-      carts[position] = objInserted;
-    }
+    actionsOnCart.add(state.selectedProduct, state.quantity);
     actions.reset();
     recalculateGrandTotal();
   }
@@ -103,7 +88,7 @@ export default function Catalogue() {
       itemTotal += v.qty;
     });
 
-    actionCarts.changeTotal(itemTotal, grandTotal);
+    actionsOnCart.changeTotal(itemTotal, grandTotal);
   }
 
   return (
@@ -119,7 +104,7 @@ export default function Catalogue() {
           product={state.selectedProduct}
           closeProduct={handleCancel}
           addToCart={addtoCartHandler}
-          setQuantity={(quantity) => actions.changeQuantity(quantity)}
+          setQuantity={(quantity: number) => actions.changeQuantity(quantity)}
         />
         <Cart
           visible={showModalCart}
@@ -131,9 +116,9 @@ export default function Catalogue() {
       <Main>
         <Title>Product Catalogue</Title>
         <Products>
-          {products.map((product) => {
+          {listProduct.map((product) => {
             return (
-              <Product
+              <ContentProduct
                 name={product.title}
                 image={product.image}
                 onClick={() => {

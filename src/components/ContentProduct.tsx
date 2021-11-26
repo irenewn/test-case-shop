@@ -1,4 +1,3 @@
-import React from "react";
 import rokok from "../assets/image/rokok.png";
 import styled from "styled-components";
 
@@ -34,7 +33,7 @@ interface ProductProps{
   onClick: ()=>void,
 }
 
-export default function Product({ name, image, onClick }: ProductProps) {
+export default function ContentProduct({ name, image, onClick }: ProductProps) {
   return (
     <Wrapper>
       <Title>

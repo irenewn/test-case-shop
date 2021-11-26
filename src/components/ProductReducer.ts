@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import { Product } from "./types";
 
 interface ProductReducerState {
-  selectedProduct: Product;
+  selectedProduct: Product | {};
   showModalProduct: boolean;
   quantity: number;
 }
