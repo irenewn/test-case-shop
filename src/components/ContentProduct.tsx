@@ -1,4 +1,3 @@
-import React from "react";
 import rokok from "../assets/image/rokok.png";
 import styled from "styled-components";
 
@@ -28,7 +27,13 @@ const Title = styled.h1`
   font-size: large;
 `;
 
-export default function Product({ name, image, onClick }) {
+interface ProductProps{
+  name: string,
+  image: string,
+  onClick: ()=>void,
+}
+
+export default function ContentProduct({ name, image, onClick }: ProductProps) {
   return (
     <Wrapper>
       <Title>

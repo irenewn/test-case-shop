@@ -1,6 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 import { Modal, Button } from "antd";
+import { Product } from "./types";
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,7 +28,14 @@ const GrandTotal = styled.div`
   justify-content: flex-end;
 `;
 
-export default function Cart({ visible, productList, emptyCart, closeCart }) {
+interface CartState {
+  visible: boolean,
+  productList: Product[],
+  emptyCart: () => void,
+  closeCart: () => void,
+}
+
+export default function Cart({ visible, productList, emptyCart, closeCart }: CartState) {
   return (
     <Modal
       centered
@@ -42,6 +49,7 @@ export default function Cart({ visible, productList, emptyCart, closeCart }) {
       ) : (
         <div>
           {productList.map((product) => {
+            const quantity = product?.qty ?? 0
             return (
               <Wrapper>
                 <ItemInfo>
@@ -49,12 +57,12 @@ export default function Cart({ visible, productList, emptyCart, closeCart }) {
                   <ItemDetail>
                     <h2>{product.title}</h2>
                     <strong>
-                      {product.qty} x ${product.price}
+                      {quantity} x ${product.price}
                     </strong>
                     <br />
                   </ItemDetail>
                 </ItemInfo>
-                <GrandTotal>${product.qty * product.price}</GrandTotal>
+                <GrandTotal>${quantity * product.price}</GrandTotal>
               </Wrapper>
             );
           })}

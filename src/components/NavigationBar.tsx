@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const NavBar = styled.nav`
@@ -35,7 +34,11 @@ const RightColumn = styled.div`
       justify-content: flex-end;
       `;
 
-export default function NavigationBar({onClick}){
+      interface NavigationBarProps {
+        onClick: () => void,
+      }
+
+export default function NavigationBar({onClick}: NavigationBarProps){
     return (
         <NavBar>
             <Container>

@@ -1,6 +1,6 @@
-import React from "react";
 import styled from "styled-components";
 import { Modal, Button, InputNumber } from "antd";
+import { Product } from "./types";
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,13 +21,21 @@ const Description = styled.p`
   display: block;
 `;
 
+interface AddProductProps {
+  visible: boolean,
+  product: Product,
+  closeProduct: () => void,
+  addToCart: () => void,
+  setQuantity: (qty: number) => void,
+}
+
 export default function AddProduct({
   visible,
   product,
   closeProduct,
   addToCart,
   setQuantity,
-}) {
+}: AddProductProps) {
   return (
     <Modal
       centered
